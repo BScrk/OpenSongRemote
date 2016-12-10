@@ -58,8 +58,8 @@ $ cordova plugin add cordova-plugin-whitelist
 
 Install platform support (if needed)
 ```bash
-$ cordova platform add android
-$ ionic platform android
+$ cordova platform add ios
+$ ionic platform ios
 ```
 
 Build & run
