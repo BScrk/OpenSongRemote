@@ -7,9 +7,9 @@ import * as _ from 'lodash';
 @Injectable()
 export class OpenSongBridge {
   //-------------------------------------------------------------------------
-  //private static CLOSE_URL : string = "presentation/close";
+  private static CLOSE_URL : string = "presentation/close";
   private static SONGS_LIST_URL : string = "song";
-  //private static SHOW_SONG_URL: string  = "song/present";
+  private static SHOW_SONG_URL: string  = "song/present/";
   private static GET_STATUS_URL : string = "presentation/status";
   //-------------------------------------------------------------------------
 
@@ -27,6 +27,8 @@ export class OpenSongBridge {
     this.connected = false;
   }
 
+  //-------------------------------------------------------------------------
+  // HELPERS
   //-------------------------------------------------------------------------
   GET( action : string ){
     var _h = new Headers();
@@ -56,6 +58,10 @@ export class OpenSongBridge {
 
     return this.http.post(url,'',opt).map(res => res.text());
   }
+
+
+  //-------------------------------------------------------------------------
+  // PROVIDER
   //-------------------------------------------------------------------------
   loadSongs(){
     if(this.loaded_songs){
@@ -74,12 +80,33 @@ export class OpenSongBridge {
         });
     });
   }
-
   //-------------------------------------------------------------------------
   getLoadedSongs(){
     return this.loaded_songs;
   }
-
+  //-------------------------------------------------------------------------
+  closeCurrentPresentation(){
+    return new Promise( (resolve, reject) => {
+      this.POST(OpenSongBridge.CLOSE_URL).subscribe(data => {
+          resolve("Ok");
+        }, error => {
+          if(error.status == 403){ // There is no running presentation
+            resolve("Ok");
+          }
+          reject("Connection Error");
+        });
+    });
+  }
+  //-------------------------------------------------------------------------
+  showSong(title : string){
+    return new Promise( (resolve, reject) => {
+      this.POST(OpenSongBridge.SHOW_SONG_URL + title).subscribe(data => {
+          resolve("Ok");
+        }, error => {
+          reject("Connection Error");
+        });
+    });
+  }
   //-------------------------------------------------------------------------
   connect(host:string, port:string, pass:string){
     if(this.connected){
