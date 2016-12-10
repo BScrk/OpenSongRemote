@@ -27,6 +27,13 @@ $ ionic serve --lab
 
 ### Android 
 
+Install platform support (if needed)
+```bash
+$ cordova platform add android
+$ ionic platform android
+```
+
+Build & run
 ```bash
 $ ionic build android
 $ ionic run android
@@ -34,9 +41,14 @@ $ ionic run android
 
 ### iOS
 
+Install platform support (if needed)
+```bash
+$ cordova platform add android
+$ ionic platform android
+```
+
+Build & run
 ```bash
 $ ionic build ios
 ```
-
-Then launch xcode, open project ./platforms/ios/OpenSongRemote.xcodeproj
-and click Play
+Then launch xcode, open project ./platforms/ios/OpenSongRemote.xcodeproj and click Play
