@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { OpenSongBridge } from '../../providers/open-song-bridge';
+import { AlertController } from 'ionic-angular';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ConnectPage {
   constructor(public navCtrl: NavController
               ,public loadingCtrl: LoadingController
               ,public toastCtrl: ToastController
-              ,private OSB: OpenSongBridge) {
+              ,public OSB: OpenSongBridge
+              ,public alertCtrl: AlertController) {
     this.connected = false;
 
     var _ht = window.localStorage.getItem('host');
@@ -43,9 +45,26 @@ export class ConnectPage {
   }
 
   disconnect(){
-    this.host = this.port = this.pass = "";
-    this.OSB.logout();
-    this.connected = false;
+    let confirm = this.alertCtrl.create({
+          title: 'Disconnect ?',
+          message: 'Do you really whant to disconnect the Remote contoller to your Open Song server ?',
+          buttons: [
+            {
+              text: 'Abort',
+              handler: () => {
+              }
+            },
+            {
+              text: 'Confirm',
+              handler: () => {
+                this.host = this.port = this.pass = "";
+                this.OSB.logout();
+                this.connected = false;
+              }
+            }
+          ]
+        });
+        confirm.present();
   }
 
   connect(){
