@@ -97,7 +97,7 @@ export class OpenSongBridge {
           resolve("Ok");
         }, error => {
           if(error.status == 403){ // There is no running presentation
-            resolve("Ok");
+            resolve("There is no running presentation");
           }
           reject("Connection Error");
         });
@@ -120,7 +120,10 @@ export class OpenSongBridge {
           resolve("Ok");
         }, error => {
           if(error.status == 500){ // There is no other slides
-            resolve("Finished");
+            reject("There are on other slides to show ;)");
+          }
+          if(error.status == 403){ // There is no running presentation
+            reject("There is no running presentation");
           }
           reject("Connection Error");
         });
@@ -132,8 +135,11 @@ export class OpenSongBridge {
       this.POST(OpenSongBridge.PREV_URL).subscribe(data => {
           resolve("Ok");
         }, error => {
-          if(error.status == 500){ // There is no previous slides
-            resolve("First");
+          if(error.status == 500){ // There is no other slides
+            reject("You already are at the first slide ;)");
+          }
+          if(error.status == 403){ // There is no running presentation
+            reject("There is no running presentation");
           }
           reject("Connection Error");
         });
@@ -145,6 +151,9 @@ export class OpenSongBridge {
       this.POST(OpenSongBridge.SCREEN_MODE_URL + mode).subscribe(data => {
           resolve("Ok");
         }, error => {
+          if(error.status == 403){ // There is no running presentation
+            reject("There is no running presentation");
+          }
           reject("Connection Error");
         });
     });

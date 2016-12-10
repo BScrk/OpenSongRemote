@@ -85,33 +85,40 @@ export class ConnectPage {
   next(){
     console.log("Next");
     this.OSB.nextSlide().then( (msg) =>{
-      if(msg == "Finished"){
-        this.toastCtrl.create({message: "There are on other slides to show ;)",duration: 3000}).present();
-      }
+    }).catch((err)=>{
+      this.toastCtrl.create({message: err,duration: 3000}).present();
     });
   }
   //-------------------------------------------------------------------------
   prev(){
     console.log("Prev");
     this.OSB.prevSlide().then( (msg) =>{
-      if(msg == "First"){
-        this.toastCtrl.create({message: "You already are at the first slide ;)",duration: 3000}).present();
-      }
+    }).catch((err)=>{
+      this.toastCtrl.create({message: err,duration: 3000}).present();
     });
   }
   //-------------------------------------------------------------------------
   blackscreen(){
     console.log("Black");
-    this.OSB.setScreenMode("black");
+    this.OSB.setScreenMode("black").then( (msg) =>{
+    }).catch((err)=>{
+      this.toastCtrl.create({message: err,duration: 3000}).present();
+    });
   }
   //-------------------------------------------------------------------------
   normalscreen(){
     console.log("Normal");
-    this.OSB.setScreenMode("normal");
+    this.OSB.setScreenMode("normal").then( (msg) =>{
+    }).catch((err)=>{
+      this.toastCtrl.create({message: err,duration: 3000}).present();
+    });
   }
   //-------------------------------------------------------------------------
   stop(){
     console.log("Stop");
-    this.OSB.closeCurrentPresentation();
+    this.OSB.closeCurrentPresentation().then( (msg) =>{
+    }).catch((err)=>{
+      this.toastCtrl.create({message: err,duration: 3000}).present();
+    });
   }
 }
