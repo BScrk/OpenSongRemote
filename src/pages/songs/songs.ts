@@ -27,49 +27,52 @@ export class SongsPage {
   }
   //-------------------------------------------------------------------------
   presentSong(song) {
-/*      let URL =  "http://127.0.0.1:8082/presentation/close";
-      let token = "test"
-
-      let options = new RequestOptions();
-      if(token){
-        options.headers.append( 'Authorization','Basic '+ btoa(token));
-      }
-
-      this.http.post(URL,"",options).map(res => res.text()).subscribe(data => {
-        console.log(data);
-      }, error => {
-        console.log("Oooops!");
-      });*/
-    }
-
-    //-------------------------------------------------------------------------
-    initializeItems() {
-      let loader = this.loadingCtrl.create({
-        content: "Please wait...",
-        duration: 10000
-      });
-      loader.present();
-      this.songs = [];
-      this.OSB.loadSongs().then(() => {
-        this.songs = this.OSB.getLoadedSongs();
+    let loader = this.loadingCtrl.create({
+      content: "Starting...",
+      duration: 10000
+    });
+    loader.present();
+    this.OSB.closeCurrentPresentation().then(() => {
+      this.OSB.showSong(song.name).then(() => {
         loader.dismiss();
+        // Todo => goto screen controller
       }).catch( (err) => {
         loader.dismiss();
         this.toastCtrl.create({message: err,duration: 3000}).present();
       });
-    }
-    //-------------------------------------------------------------------------
-    getItems(ev) {
-        // set val to the value of the ev target
-        var val = ev.target.value;
-        // if the value is an empty string don't filter the items
-        if (val && val.trim() != '') {
-          this.songs = this.OSB.getLoadedSongs().filter((item) => {
-            return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
-          })
-        }else{
-          this.songs = this.OSB.getLoadedSongs();
-        }
-      }
+    }).catch( (err) => {
+      loader.dismiss();
+      this.toastCtrl.create({message: err,duration: 3000}).present();
+    });
+  }
 
+  //-------------------------------------------------------------------------
+  initializeItems() {
+    let loader = this.loadingCtrl.create({
+      content: "Please wait...",
+      duration: 10000
+    });
+    loader.present();
+    this.songs = [];
+    this.OSB.loadSongs().then(() => {
+      this.songs = this.OSB.getLoadedSongs();
+      loader.dismiss();
+    }).catch( (err) => {
+      loader.dismiss();
+      this.toastCtrl.create({message: err,duration: 3000}).present();
+    });
+  }
+  //-------------------------------------------------------------------------
+  getItems(ev) {
+      // set val to the value of the ev target
+      var val = ev.target.value;
+      // if the value is an empty string don't filter the items
+      if (val && val.trim() != '') {
+        this.songs = this.OSB.getLoadedSongs().filter((item) => {
+          return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        })
+      }else{
+        this.songs = this.OSB.getLoadedSongs();
+      }
+    }
   }
