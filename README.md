@@ -1,4 +1,4 @@
-OpenSongRemote Ionic Mobile App
+OpenSongRemote Ionic Mobile App (Work in Progress)
 =====================
 Remote mobile app for Open Song (2.1+)
 
