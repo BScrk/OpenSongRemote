@@ -7,19 +7,32 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Connect</ion-title>
+    <div *ngIf="OSB.isConnected()">
+      <ion-title>Main actions</ion-title>
+    </div>
+    <div *ngIf="!OSB.isConnected()">
+      <ion-title>Connect</ion-title>
+    </div>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
-  <div *ngIf="connected">
+  <div *ngIf="OSB.isConnected()">
+    <p>Use this button to show main actions <br><i>( next / prev / black screen / stop)</i></p>
     <div style="margin: 0 auto; width:200px">
       <img src="assets/img/connected.png"/>
     </div>
-
+    <ion-fab left top>
+      <button ion-fab color="light"><ion-icon name="arrow-down"></ion-icon></button>
+      <ion-fab-list side="bottom">
+        <button ion-fab><ion-icon name="ios-arrow-forward" (click)="next()"></ion-icon></button>
+        <button ion-fab><ion-icon name="ios-arrow-back" (click)="prev()"></ion-icon></button>
+        <button ion-fab><ion-icon name="ios-create" (click)="blackscreen()"></ion-icon></button>
+        <button ion-fab><ion-icon name="ios-hand-outline" (click)="stop()"></ion-icon></button>
+      </ion-fab-list>
+    </ion-fab>
     <h2>Ready to sart !</h2>
     <p>
      Your <b>OpenSongRemote</b> mobile app is connected to your OpenSong server (Ip:<i>{{host}}:{{port}}</i>).
@@ -29,7 +42,7 @@
     </div>
   </div>
 
-  <div *ngIf="!connected">
+  <div *ngIf="!OSB.isConnected()">
     <div style="margin: 1rem auto; width:150px;">
       <img src="assets/img/connecting.png" style="padding-top: 0rem;"/>
     </div>

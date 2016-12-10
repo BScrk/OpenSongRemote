@@ -7,6 +7,9 @@ import * as _ from 'lodash';
 @Injectable()
 export class OpenSongBridge {
   //-------------------------------------------------------------------------
+  private static NEXT_URL : string = "presentation/slide/next";
+  private static PREV_URL : string = "presentation/slide/previous";
+  private static SCREEN_MODE_URL : string = "presentation/screen/";
   private static CLOSE_URL : string = "presentation/close";
   private static SONGS_LIST_URL : string = "song";
   private static SHOW_SONG_URL: string  = "song/present/";
@@ -101,6 +104,42 @@ export class OpenSongBridge {
   showSong(title : string){
     return new Promise( (resolve, reject) => {
       this.POST(OpenSongBridge.SHOW_SONG_URL + title).subscribe(data => {
+          resolve("Ok");
+        }, error => {
+          reject("Connection Error");
+        });
+    });
+  }
+  //-------------------------------------------------------------------------
+  nextSlide(){
+    return new Promise( (resolve, reject) => {
+      this.POST(OpenSongBridge.NEXT_URL).subscribe(data => {
+          resolve("Ok");
+        }, error => {
+          if(error.status == 500){ // There is no other slides
+            resolve("Finished");
+          }
+          reject("Connection Error");
+        });
+    });
+  }
+  //-------------------------------------------------------------------------
+  prevSlide(){
+    return new Promise( (resolve, reject) => {
+      this.POST(OpenSongBridge.PREV_URL).subscribe(data => {
+          resolve("Ok");
+        }, error => {
+          if(error.status == 500){ // There is no previous slides
+            resolve("First");
+          }          
+          reject("Connection Error");
+        });
+    });
+  }
+  //-------------------------------------------------------------------------
+  setScreenMode(mode:string){
+    return new Promise( (resolve, reject) => {
+      this.POST(OpenSongBridge.SCREEN_MODE_URL + mode).subscribe(data => {
           resolve("Ok");
         }, error => {
           reject("Connection Error");

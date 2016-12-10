@@ -12,7 +12,6 @@ import { AlertController } from 'ionic-angular';
   //,providers: [OpenSongBridge]
 })
 export class ConnectPage {
-  connected : boolean;
   host : string;
   port : string;
   pass : string;
@@ -22,7 +21,6 @@ export class ConnectPage {
               ,public toastCtrl: ToastController
               ,public OSB: OpenSongBridge
               ,public alertCtrl: AlertController) {
-    this.connected = false;
 
     var _ht = window.localStorage.getItem('host');
     var _pt = window.localStorage.getItem('port');
@@ -36,14 +34,16 @@ export class ConnectPage {
       this.connect();
     }
   }
-
+  //-------------------------------------------------------------------------
   ionViewDidLoad() {
   }
 
+  //-------------------------------------------------------------------------
   canConnect(){
     return ((this.host.length > 2) && (this.port.length > 2)) ;
   }
 
+  //-------------------------------------------------------------------------
   disconnect(){
     let confirm = this.alertCtrl.create({
           title: 'Disconnect ?',
@@ -59,7 +59,6 @@ export class ConnectPage {
               handler: () => {
                 this.host = this.port = this.pass = "";
                 this.OSB.logout();
-                this.connected = false;
               }
             }
           ]
@@ -67,6 +66,7 @@ export class ConnectPage {
         confirm.present();
   }
 
+  //-------------------------------------------------------------------------
   connect(){
     let loader = this.loadingCtrl.create({
       content: "Connecting...",
@@ -75,12 +75,43 @@ export class ConnectPage {
     loader.present();
     this.OSB.connect(this.host,this.port,this.pass).then( () => {
       loader.dismiss();
-      this.connected = true;
     } ).catch((err)=>{
-      this.connected = false;
       loader.dismiss();
       this.toastCtrl.create({message: err,duration: 3000}).present();
     });
   }
 
+  //-------------------------------------------------------------------------
+  next(){
+    console.log("Next");
+    this.OSB.nextSlide().then( (msg) =>{
+      if(msg == "Finished"){
+        this.toastCtrl.create({message: "There are on other slides to show ;)",duration: 3000}).present();
+      }
+    });
+  }
+  //-------------------------------------------------------------------------
+  prev(){
+    console.log("Prev");
+    this.OSB.prevSlide().then( (msg) =>{
+      if(msg == "First"){
+        this.toastCtrl.create({message: "You already are at the first slide ;)",duration: 3000}).present();
+      }
+    });
+  }
+  //-------------------------------------------------------------------------
+  blackscreen(){
+    console.log("Black");
+    this.OSB.setScreenMode("black");
+  }
+  //-------------------------------------------------------------------------
+  normalscreen(){
+    console.log("Normal");
+    this.OSB.setScreenMode("normal");
+  }
+  //-------------------------------------------------------------------------
+  stop(){
+    console.log("Stop");
+    this.OSB.closeCurrentPresentation();
+  }
 }

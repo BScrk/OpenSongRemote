@@ -4,6 +4,7 @@ import { ConnectPage } from '../connect/connect';
 import { SlidesPage } from '../slides/slides';
 import { SongsPage } from '../songs/songs';
 import { AboutPage } from '../about/about';
+import { OpenSongBridge } from '../../providers/open-song-bridge';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -16,7 +17,7 @@ export class TabsPage {
   tab3Root: any = SongsPage;
   tab4Root: any = AboutPage;
 
-  constructor() {
+  constructor(public OSB: OpenSongBridge) {
 
   }
 }
