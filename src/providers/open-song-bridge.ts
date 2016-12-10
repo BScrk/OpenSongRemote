@@ -34,6 +34,7 @@ export class OpenSongBridge {
   // HELPERS
   //-------------------------------------------------------------------------
   GET( action : string ){
+    console.log("HTTP GET : " + action);
     var _h = new Headers();
     /*if(OpenSongBridge.TOKEN != ""){
       _h.append( 'Authorization','Basic '+ btoa(OpenSongBridge.TOKEN));
@@ -45,6 +46,8 @@ export class OpenSongBridge {
   }
   //-------------------------------------------------------------------------
   POST( action : string ){
+    console.log("HTTP POST : " + action);
+
     let opt: RequestOptions;
     let myHeaders: Headers = new Headers;
     myHeaders.set('Content-type', 'text/plain');
@@ -131,7 +134,7 @@ export class OpenSongBridge {
         }, error => {
           if(error.status == 500){ // There is no previous slides
             resolve("First");
-          }          
+          }
           reject("Connection Error");
         });
     });
