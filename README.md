@@ -4,7 +4,7 @@ Remote mobile app for Open Song (2.1+)
 
 ## Open Song
 
-##### Official website 
+##### Official website
 http://www.opensong.org/
 
 ##### API
@@ -17,6 +17,12 @@ $ npm install -g cordova ionic
 $ npm install
 ```
 
+### Cordova plugins
+
+```bash
+$ cordova plugin add cordova-plugin-whitelist
+```
+
 ## Launch (dev mode)
 
 ```bash
@@ -25,7 +31,7 @@ $ ionic serve --lab
 
 ## Build & run
 
-### Android 
+### Android
 
 Install platform support (if needed)
 ```bash
@@ -39,9 +45,9 @@ $ ionic build android
 $ ionic run android
 ```
 
-#### Android Issues 
+#### Android Issues
 
-##### No internet issue ? (connection failed) 
+##### No internet issue ? (connection failed)
 1 - Run the following command
 ```bash
 $ cordova plugin add cordova-plugin-whitelist
