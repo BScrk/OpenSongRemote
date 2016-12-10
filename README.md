@@ -17,7 +17,7 @@ $ npm install -g cordova ionic
 $ npm install
 ```
 
-## Launch
+## Launch (dev mode)
 
 ```bash
 $ ionic serve --lab
