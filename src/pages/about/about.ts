@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
 
 @Component({
@@ -8,8 +7,13 @@ import { NavController } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController) {
 
+  constructor(public navCtrl: NavController ) {
+
+  }
+
+  open(url) {
+    window.open(url, "_system");
   }
 
 }

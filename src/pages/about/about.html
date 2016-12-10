@@ -8,4 +8,42 @@
 
 <ion-content padding>
 
+<ion-card>
+
+   <img src="assets/img/concert.png"/>
+
+   <ion-card-content>
+     <ion-card-title>
+       OpenSong Remote v0.1
+     </ion-card-title>
+     <p>
+       Remote controller mobile app for Open Song<br>
+       Copyright (c) 2016 BScrk/Luca Benevolo<br>
+       http://opensongremote.com
+      </p>
+   </ion-card-content>
+
+   <ion-row no-padding>
+     <ion-col>
+       <button ion-button clear small color="dark" icon-left (click)="open('http://google.com')">
+         <ion-icon name='star'></ion-icon>
+         Rate
+       </button>
+     </ion-col>
+     <ion-col text-center>
+       <button ion-button clear small color="dark" icon-left (click)="open('http://opensongremote.com')">
+         <ion-icon name='cloud'></ion-icon>
+         website
+       </button>
+     </ion-col>
+     <ion-col text-right>
+       <button ion-button clear small color="dark" icon-left (click)="open('mailto:contact@opensongremote.com')">
+         <ion-icon name='mail'></ion-icon>
+         contact
+       </button>
+     </ion-col>
+   </ion-row>
+
+ </ion-card>
+
 </ion-content>
