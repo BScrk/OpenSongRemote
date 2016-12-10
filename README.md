@@ -66,4 +66,4 @@ Build & run
 ```bash
 $ ionic build ios
 ```
-Then launch xcode, open project ./platforms/ios/OpenSongRemote.xcodeproj and click Play
+Then launch xcode, open project ./platforms/ios/OpenSong Remote.xcworkspace and click Play
