@@ -17,7 +17,7 @@ export class SongsPage {
               ,public loadingCtrl: LoadingController
               ,public toastCtrl: ToastController
               ,public tabs: Tabs
-              ,private OSB: OpenSongBridge) {
+              ,public OSB: OpenSongBridge) {
     this.initializeItems();
   }
 
