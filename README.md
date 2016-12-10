@@ -4,10 +4,10 @@ Remote mobile app for Open Song (2.1+)
 
 ## Open Song
 
-### Official website 
+##### Official website 
 http://www.opensong.org/
 
-### API
+##### API
 http://www.opensong.org/home/api
 
 ## Install
@@ -38,6 +38,21 @@ Build & run
 $ ionic build android
 $ ionic run android
 ```
+
+#### Android Issues 
+
+##### No internet issue ? (connection failed) 
+1 - Run the following command
+```bash
+$ cordova plugin add cordova-plugin-whitelist
+```
+2 - Also make sure you have the following in your Android manifest...
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+ ```
+
 
 ### iOS
 
