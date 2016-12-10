@@ -6,6 +6,9 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class OpenSongBridge {
+
+
+   private static DEFAULT_DISPLAY_MODE : string = "/display:1";
   //-------------------------------------------------------------------------
   private static NEXT_URL : string = "presentation/slide/next";
   private static PREV_URL : string = "presentation/slide/previous";
@@ -106,7 +109,7 @@ export class OpenSongBridge {
   //-------------------------------------------------------------------------
   showSong(title : string){
     return new Promise( (resolve, reject) => {
-      this.POST(OpenSongBridge.SHOW_SONG_URL + title).subscribe(data => {
+      this.POST(OpenSongBridge.SHOW_SONG_URL + title + DEFAULT_DISPLAY_MODE).subscribe(data => {
           resolve("Ok");
         }, error => {
           reject("Connection Error");
