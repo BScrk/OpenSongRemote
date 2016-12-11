@@ -109,7 +109,7 @@ export class OpenSongBridge {
   //-------------------------------------------------------------------------
   showSong(title : string){
     return new Promise( (resolve, reject) => {
-      this.POST(OpenSongBridge.SHOW_SONG_URL + title + DEFAULT_DISPLAY_MODE).subscribe(data => {
+      this.POST(OpenSongBridge.SHOW_SONG_URL + title + OpenSongBridge.DEFAULT_DISPLAY_MODE).subscribe(data => {
           resolve("Ok");
         }, error => {
           reject("Connection Error");
