@@ -1,8 +1,7 @@
 
-<ion-content padding class="black-bg">
+<ion-content center text-center class="black-bg">
 
   <div *ngIf="OSB.getStatus().running">
-
     <ion-fab left top>
       <button ion-fab color="dark" (click)="toggleScreen()" *ngIf="OSB.getStatus().screen.active">
         <ion-icon name="ios-moon"></ion-icon>
@@ -20,20 +19,26 @@
     <ion-fab right bottom>
       <button ion-fab color="light" (click)="next()"><ion-icon name="ios-arrow-forward"></ion-icon></button>
     </ion-fab>
-
-
-    <div class="os-screen">
-      <img [src]="OSB.getScreenImgURL()"/>
-    </div>
-
-
-
   </div>
 
 
-  <div *ngIf="!(OSB.getStatus().running)">
-    <p><b>No presentation running....</b></p>
-    <button ion-button color="light" block (click)="close()">Exit</button>
+  <div *ngIf="OSB.getStatus().running"  class="home-background" [style.backgroundImage]="'url(' + OSB.getScreenImgURL()  + ')'" (click)="next()">
+  </div>
+
+
+
+  <div *ngIf="!(OSB.getStatus().running)" class="warning">
+  <ion-card>
+     <img src="assets/img/noscreen.png"/>
+     <ion-card-content>
+       <ion-card-title>
+         No presentation running...
+       </ion-card-title>
+       <div padding>
+         <button ion-button color="light" block (click)="close()">Exit</button>
+       </div>
+     </ion-card-content>
+  </ion-card>
   </div>
 
 

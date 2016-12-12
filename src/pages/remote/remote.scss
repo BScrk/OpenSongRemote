@@ -1,21 +1,23 @@
 page-remote {
+
+  .warning{
+    padding-top: 6rem;
+  }
+
   .black-bg {
     background-color: #333333;
   }
 
-  .os-screen{
-    height: 100%;
-    width: 100%;
+  .home-background {
+      background: no-repeat fixed center;
+      -webkit-background-size: contain;
+      -moz-background-size: contain;
+      background-size: contain;
+      width: 100%;
+      height: 100%;
   }
 
   b {
     color: #FFFFFF;
-  }
-
-  img{
-    height: auto;
-    width: 100%;
-    margin: auto;
-    display: block;
   }
 }
