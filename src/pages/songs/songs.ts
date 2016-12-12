@@ -4,6 +4,9 @@ import { LoadingController } from 'ionic-angular';
 import { OpenSongBridge } from '../../providers/open-song-bridge';
 import { ToastController } from 'ionic-angular';
 import {Tabs} from 'ionic-angular';
+import { RemotePage } from '../remote/remote';
+import { ModalController } from 'ionic-angular';
+
 
 @Component({
   selector: 'page-songs',
@@ -17,7 +20,9 @@ export class SongsPage {
               ,public loadingCtrl: LoadingController
               ,public toastCtrl: ToastController
               ,public tabs: Tabs
-              ,public OSB: OpenSongBridge) {
+              ,public OSB: OpenSongBridge
+              ,public modalCtrl: ModalController) {
+
     this.initializeItems();
   }
 
@@ -35,7 +40,7 @@ export class SongsPage {
     this.OSB.closeCurrentPresentation().then(() => {
       this.OSB.showSong(song.name).then(() => {
         loader.dismiss();
-        // Todo => goto screen controller
+        this.link();
       }).catch( (err) => {
         loader.dismiss();
         this.toastCtrl.create({message: err,duration: 3000}).present();
@@ -45,7 +50,12 @@ export class SongsPage {
       this.toastCtrl.create({message: err,duration: 3000}).present();
     });
   }
-
+  //-------------------------------------------------------------------------
+  link(){
+    console.log("Connect");
+    let modal = this.modalCtrl.create(RemotePage);
+    modal.present();
+  }
   //-------------------------------------------------------------------------
   initializeItems() {
     let loader = this.loadingCtrl.create({

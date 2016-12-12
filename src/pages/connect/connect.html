@@ -20,19 +20,24 @@
 
 <ion-content padding>
   <div *ngIf="OSB.isConnected()">
-    <p>Use this button to show main actions <br><i>( next / prev / black screen / stop)</i></p>
+    <div *ngIf="OSB.getStatus().running">
+      <p><i>< There is a running presentation...<br>Use this button to control or stop it.</i></p>
+      <ion-fab left top>
+        <button ion-fab color="light"><ion-icon name="arrow-down"></ion-icon></button>
+        <ion-fab-list side="bottom">
+          <button ion-fab (click)="link()"><ion-icon name="ios-link"></ion-icon></button>
+          <button ion-fab (click)="stop()"><ion-icon name="ios-hand-outline"  color="danger" ></ion-icon></button>
+        </ion-fab-list>
+      </ion-fab>
+
+
+
+
+    </div>
+
     <div style="margin: 0 auto; width:200px">
       <img src="assets/img/connected.png"/>
     </div>
-    <ion-fab left top>
-      <button ion-fab color="light"><ion-icon name="arrow-down"></ion-icon></button>
-      <ion-fab-list side="bottom">
-        <button ion-fab (click)="next()"><ion-icon name="ios-arrow-forward"></ion-icon></button>
-        <button ion-fab (click)="prev()"><ion-icon name="ios-arrow-back"></ion-icon></button>
-        <button ion-fab (click)="blackscreen()"><ion-icon name="ios-create"></ion-icon></button>
-        <button ion-fab (click)="stop()"><ion-icon name="ios-hand-outline"></ion-icon></button>
-      </ion-fab-list>
-    </ion-fab>
     <h2>Ready to start !</h2>
     <p>
      Your <b>OpenSongRemote</b> mobile app is connected to your OpenSong server (Ip:<i>{{host}}:{{port}}</i>).

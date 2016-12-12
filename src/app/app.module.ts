@@ -7,6 +7,8 @@ import { SlidesPage } from '../pages/slides/slides';
 import { SongsPage } from '../pages/songs/songs';
 import { TabsPage } from '../pages/tabs/tabs';
 import { OpenSongBridge } from '../providers/open-song-bridge';
+import { RemotePage } from '../pages/remote/remote';
+
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import { OpenSongBridge } from '../providers/open-song-bridge';
     ConnectPage,
     SongsPage,
     SlidesPage,
-    TabsPage
+    TabsPage,
+    RemotePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -27,7 +30,8 @@ import { OpenSongBridge } from '../providers/open-song-bridge';
     ConnectPage,
     SongsPage,
     SlidesPage,
-    TabsPage
+    TabsPage,
+    RemotePage
   ],
   providers: [OpenSongBridge,{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

@@ -17,10 +17,15 @@ export class OpenSongBridge {
   private static SONGS_LIST_URL : string = "song";
   private static SHOW_SONG_URL: string  = "song/present/";
   private static GET_STATUS_URL : string = "presentation/status";
+  private static GET_SCREEN_URL : string = "presentation/slide/SLIDE_NB/image/width:800/height:500/quality:50";
   //-------------------------------------------------------------------------
 
   private connected : boolean;
   private loaded_songs: any;
+  private status = { running : false
+                   , screen : { active: false}
+                   , slide: { pos: 0, name: ""}};
+
 
   public static CONNECTED : string = null;
   public static HOST : string =  null;
@@ -97,68 +102,100 @@ export class OpenSongBridge {
   closeCurrentPresentation(){
     return new Promise( (resolve, reject) => {
       this.POST(OpenSongBridge.CLOSE_URL).subscribe(data => {
-          resolve("Ok");
-        }, error => {
-          if(error.status == 403){ // There is no running presentation
-            resolve("There is no running presentation");
-          }
-          reject("Connection Error");
-        });
+        resolve("Ok");
+      }, error => {
+        if(error.status == 403){ // There is no running presentation
+          resolve("There is no running presentation");
+        }
+        reject("Connection Error");
+      });
     });
   }
   //-------------------------------------------------------------------------
   showSong(title : string){
     return new Promise( (resolve, reject) => {
       this.POST(OpenSongBridge.SHOW_SONG_URL + title + OpenSongBridge.DEFAULT_DISPLAY_MODE).subscribe(data => {
-          resolve("Ok");
-        }, error => {
-          reject("Connection Error");
-        });
+        this.updateStatus();
+        resolve("Ok");
+      }, error => {
+        reject("Connection Error");
+      });
     });
   }
   //-------------------------------------------------------------------------
   nextSlide(){
     return new Promise( (resolve, reject) => {
       this.POST(OpenSongBridge.NEXT_URL).subscribe(data => {
-          resolve("Ok");
-        }, error => {
-          if(error.status == 500){ // There is no other slides
-            reject("There are on other slides to show ;)");
-          }
-          if(error.status == 403){ // There is no running presentation
-            reject("There is no running presentation");
-          }
-          reject("Connection Error");
-        });
+        this.updateStatus();
+        resolve("Ok");
+      }, error => {
+        if(error.status == 500){ // There is no other slides
+          reject("There are on other slides to show ;)");
+        }
+        if(error.status == 403){ // There is no running presentation
+          reject("There is no running presentation");
+        }
+        reject("Connection Error");
+      });
     });
   }
   //-------------------------------------------------------------------------
   prevSlide(){
     return new Promise( (resolve, reject) => {
       this.POST(OpenSongBridge.PREV_URL).subscribe(data => {
-          resolve("Ok");
-        }, error => {
-          if(error.status == 500){ // There is no other slides
-            reject("You already are at the first slide ;)");
-          }
-          if(error.status == 403){ // There is no running presentation
-            reject("There is no running presentation");
-          }
-          reject("Connection Error");
-        });
+        this.updateStatus();
+        resolve("Ok");
+      }, error => {
+        if(error.status == 500){ // There is no other slides
+          reject("You already are at the first slide ;)");
+        }
+        if(error.status == 403){ // There is no running presentation
+          reject("There is no running presentation");
+        }
+        reject("Connection Error");
+      });
     });
   }
   //-------------------------------------------------------------------------
   setScreenMode(mode:string){
     return new Promise( (resolve, reject) => {
       this.POST(OpenSongBridge.SCREEN_MODE_URL + mode).subscribe(data => {
-          resolve("Ok");
-        }, error => {
-          if(error.status == 403){ // There is no running presentation
-            reject("There is no running presentation");
+        this.updateStatus();
+        resolve("Ok");
+      }, error => {
+        if(error.status == 403){ // There is no running presentation
+          reject("There is no running presentation");
+        }
+        reject("Connection Error");
+      });
+    });
+  }
+  //-------------------------------------------------------------------------
+  getStatus():any{
+    return this.status;
+  }
+  //-------------------------------------------------------------------------
+  statusPolling(){
+    setInterval( () => {
+      this.updateStatus();
+    },5000);
+  }
+  //-------------------------------------------------------------------------
+  updateStatus(){
+    this.GET(OpenSongBridge.GET_STATUS_URL).subscribe(data => {
+      xml2js.parseString(data, (err, result) => {
+        this.status = { running : false
+                      , screen : { active: false}
+                      , slide: { pos: 0, name: ""}};
+        if(!err){
+          this.status.running = (result.response.presentation[0].$.running != 0);
+          if(this.status.running){
+            this.status.screen.active = (result.response.presentation[0].screen[0]._ == "normal");
+            this.status.slide.name = result.response.presentation[0].slide[0].name[0];
+            this.status.slide.pos =  result.response.presentation[0].slide[0].$.itemnumber;
           }
-          reject("Connection Error");
-        });
+        }
+      });
     });
   }
   //-------------------------------------------------------------------------
@@ -180,6 +217,8 @@ export class OpenSongBridge {
                                     if(e.status == 404){
                                       window.localStorage.setItem('pass',pass);
                                       this.connected = true;
+                                      this.updateStatus();
+                                      this.statusPolling();
                                       resolve("ok");
                                     }else{
                                       reject("Invalid or missing password for "+ host);
@@ -201,5 +240,10 @@ export class OpenSongBridge {
     window.localStorage.removeItem('pass');
     this.connected = false;
   }
-
+  //-------------------------------------------------------------------------
+  getScreenImgURL(){
+    return ("http://" + OpenSongBridge.HOST
+                      + ":" + OpenSongBridge.PORT + '/'
+                      + OpenSongBridge.GET_SCREEN_URL.replace(/SLIDE_NB/,this.status.slide.pos.toString()));
+  }
 }

@@ -4,12 +4,13 @@ import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { OpenSongBridge } from '../../providers/open-song-bridge';
 import { AlertController } from 'ionic-angular';
+import { RemotePage } from '../remote/remote';
+import { ModalController } from 'ionic-angular';
 
 
 @Component({
   selector: 'page-connect',
   templateUrl: 'connect.html'
-  //,providers: [OpenSongBridge]
 })
 export class ConnectPage {
   host : string;
@@ -20,7 +21,8 @@ export class ConnectPage {
               ,public loadingCtrl: LoadingController
               ,public toastCtrl: ToastController
               ,public OSB: OpenSongBridge
-              ,public alertCtrl: AlertController) {
+              ,public alertCtrl: AlertController
+              ,public modalCtrl: ModalController) {
 
     var _ht = window.localStorage.getItem('host');
     var _pt = window.localStorage.getItem('port');
@@ -80,39 +82,6 @@ export class ConnectPage {
       this.toastCtrl.create({message: err,duration: 3000}).present();
     });
   }
-
-  //-------------------------------------------------------------------------
-  next(){
-    console.log("Next");
-    this.OSB.nextSlide().then( (msg) =>{
-    }).catch((err)=>{
-      this.toastCtrl.create({message: err,duration: 3000}).present();
-    });
-  }
-  //-------------------------------------------------------------------------
-  prev(){
-    console.log("Prev");
-    this.OSB.prevSlide().then( (msg) =>{
-    }).catch((err)=>{
-      this.toastCtrl.create({message: err,duration: 3000}).present();
-    });
-  }
-  //-------------------------------------------------------------------------
-  blackscreen(){
-    console.log("Black");
-    this.OSB.setScreenMode("black").then( (msg) =>{
-    }).catch((err)=>{
-      this.toastCtrl.create({message: err,duration: 3000}).present();
-    });
-  }
-  //-------------------------------------------------------------------------
-  normalscreen(){
-    console.log("Normal");
-    this.OSB.setScreenMode("normal").then( (msg) =>{
-    }).catch((err)=>{
-      this.toastCtrl.create({message: err,duration: 3000}).present();
-    });
-  }
   //-------------------------------------------------------------------------
   stop(){
     console.log("Stop");
@@ -120,5 +89,11 @@ export class ConnectPage {
     }).catch((err)=>{
       this.toastCtrl.create({message: err,duration: 3000}).present();
     });
+  }
+  //-------------------------------------------------------------------------
+  link(){
+    console.log("Connect");
+    let modal = this.modalCtrl.create(RemotePage);
+    modal.present();
   }
 }
