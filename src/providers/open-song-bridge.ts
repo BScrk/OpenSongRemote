@@ -178,7 +178,7 @@ export class OpenSongBridge {
   statusPolling(){
     setInterval( () => {
       this.updateStatus();
-    },5000);
+    },2000);
   }
   //-------------------------------------------------------------------------
   updateStatus(){
