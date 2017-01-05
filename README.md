@@ -73,3 +73,9 @@ Build & run
 $ ionic build ios
 ```
 Then launch xcode, open project ./platforms/ios/OpenSong Remote.xcworkspace and click Play
+
+
+## Roadmap / Todo List
+* Slides list
+* Slides launcher
+* Add Presentation Helper
